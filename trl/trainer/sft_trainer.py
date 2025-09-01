@@ -595,7 +595,8 @@ class SFTTrainer(Trainer):
             model = get_peft_model(model, peft_config)
         print("#####")
         for n, p in model.named_parameters():
-            print(f"{n}->{p.dtype}")
+            if p.requires_grad:
+                print(f"{n}->{p.dtype}")
         print("#####")
         # Handle bf16 casting for 4-bit models
         if args.bf16 and getattr(model, "is_loaded_in_4bit", False) and not is_sharded_qlora:
