@@ -470,9 +470,13 @@ class SFTTrainer(Trainer):
                     "completion-only loss. To resolve this, apply your formatting function before passing the "
                     "dataset, or disable `completion_only_loss` in `SFTConfig`."
                 )
+            it = iter(train_dataset)
+            print(f"trl next {next(it)}")
             train_dataset = self._prepare_dataset(
                 train_dataset, processing_class, args, args.packing, formatting_func, "train"
             )
+            it = iter(train_dataset)
+            print(f"trl next {next(it)}")
             if eval_dataset is not None:
                 packing = args.packing if args.eval_packing is None else args.eval_packing
                 if isinstance(eval_dataset, dict):
@@ -494,7 +498,8 @@ class SFTTrainer(Trainer):
         # - FSDP setup
         # - Distributed training setup
         # - Optimizer and scheduler creation
-
+        it = iter(train_dataset)
+        print(f"trl next {next(it)}")
         super().__init__(
             model=model,
             args=args,
